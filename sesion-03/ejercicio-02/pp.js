@@ -59,3 +59,4 @@ circulo.dibujar(500, 500);
 window.addEventListener("mousedown", function (eventData) {
     circulo.dibujar(eventData.clientX, eventData.clientY);
 });
+
