@@ -49,7 +49,6 @@ var matcapMap = textureLoader.load(
 );
 
 
-
 //FIN
 
 //Renderer
