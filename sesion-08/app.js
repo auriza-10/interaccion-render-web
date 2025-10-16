@@ -73,7 +73,7 @@ const frontLight = new THREE.PointLight("rgba(223, 222, 222, 1)", 300, 100);
 frontLight.position.set(7, 3, 3);
 scene.add(frontLight);
 
-const rimLight = new THREE.PointLight("rgba(0, 4, 255, 1)", 50, 100);
+const rimLight = new THREE.PointLight("rgba(120, 6, 234, 1)", 50, 100);
 rimLight.position.set(-7, -3, -7);
 scene.add(rimLight);
 
@@ -106,6 +106,51 @@ const mercurioTex = {
    normal: loader.load('./assets/texturas/mercurio/normal.png'),
 };
 
+const tierraTex = {
+   albedo: loader.load('./assets/texturas/tierra/albedo.png'),
+   rougnessness: loader.load('./assets/texturas/tierra/roughness.png'),
+   metalness: loader.load('./assets/texturas/tierra/metallic.png'),
+   ao: loader.load('./assets/texturas/tierra/ao.png'),
+   normal: loader.load('./assets/texturas/tierra/normal.png'),
+};
+
+const venusTex = {
+   albedo: loader.load('./assets/texturas/venus/albedo.png'),
+   rougnessness: loader.load('./assets/texturas/venus/roughness.png'),
+   metalness: loader.load('./assets/texturas/venus/metallic.png'),
+   ao: loader.load('./assets/texturas/venus/ao.png'),
+   normal: loader.load('./assets/texturas/venus/normal.png'),
+};
+
+const marteTex = {
+   albedo: loader.load('./assets/texturas/marte/albedo.png'),
+   rougnessness: loader.load('./assets/texturas/marte/roughness.png'),
+   metalness: loader.load('./assets/texturas/marte/metallic.png'),
+   ao: loader.load('./assets/texturas/marte/ao.png'),
+   normal: loader.load('./assets/texturas/marte/normal.png'),
+};
+
+const jupiterTex = {
+   albedo: loader.load('./assets/texturas/jupiter/albedo.png'),
+   metalness: loader.load('./assets/texturas/jupiter/metallic.png'),
+   normal: loader.load('./assets/texturas/jupiter/normal.png'),
+};
+
+const saturnoTex = {
+   albedo: loader.load('./assets/texturas/saturno/albedo.png'),
+   metalness: loader.load('./assets/texturas/saturno/metallic.png'),
+   normal: loader.load('./assets/texturas/saturno/normal.png'),
+};
+
+const uranoTex = {
+   albedo: loader.load('./assets/texturas/urano/albedo.png'),
+   rougnessness: loader.load('./assets/texturas/urano/roughness.png'),
+   displacement: loader.load('./assets/texturas/urano/displacement.png'),
+   metalness: loader.load('./assets/texturas/urano/metallic.png'),
+   ao: loader.load('./assets/texturas/urano/ao.png'),
+   normal: loader.load('./assets/texturas/urano/normal.png'),
+};
+
 const neptunoTex = {
    albedo: loader.load('./assets/texturas/neptuno/albedo.png'),
    rougnessness: loader.load('./assets/texturas/neptuno/roughness.png'),
@@ -117,7 +162,7 @@ const neptunoTex = {
 
 
 // Variables globales para materiales
-var solMaterial, mercurioMaterial, neptunoMaterial;
+var solMaterial, mercurioMaterial, tierraMaterial, venusMaterial, marteMaterial, jupiterMaterial, saturnoMaterial, uranoMaterial, neptunoMaterial;
 
 function createMaterial() {
    solMaterial = new THREE.MeshStandardMaterial({
@@ -139,6 +184,58 @@ function createMaterial() {
          side: THREE.FrontSide,
    });
 
+   tierraMaterial = new THREE.MeshStandardMaterial({
+      map: tierraTex.albedo,
+      roughnessMap: tierraTex.rougnessness,
+      metalnessMap: tierraTex.metalness,
+      aoMap: tierraTex.ao,
+      normalMap: tierraTex.normal,
+      side: THREE.FrontSide,
+});
+
+   venusMaterial = new THREE.MeshStandardMaterial({
+      map: venusTex.albedo,
+      roughnessMap: venusTex.rougnessness,
+      metalnessMap: venusTex.metalness,
+      aoMap: venusTex.ao,
+      normalMap: venusTex.normal,
+      side: THREE.FrontSide,
+});
+
+   marteMaterial = new THREE.MeshStandardMaterial({
+      map: marteTex.albedo,
+      roughnessMap: marteTex.rougnessness,
+      metalnessMap: marteTex.metalness,
+      aoMap: marteTex.ao,
+      normalMap: marteTex.normal,
+      side: THREE.FrontSide,
+});
+
+   jupiterMaterial = new THREE.MeshStandardMaterial({
+      map: jupiterTex.albedo,
+      metalnessMap: jupiterTex.metalness,
+      normalMap: jupiterTex.normal,
+      side: THREE.FrontSide,
+});
+
+   saturnoMaterial = new THREE.MeshStandardMaterial({
+      map: saturnoTex.albedo,
+      metalnessMap: saturnoTex.metalness,
+      normalMap: saturnoTex.normal,
+      side: THREE.FrontSide,
+});
+
+   uranoMaterial = new THREE.MeshStandardMaterial({
+      map: uranoTex.albedo,
+      displacementMap: uranoTex.displacement,
+      displacementScale: 0.03,
+      roughnessMap: uranoTex.rougnessness,
+      metalnessMap: uranoTex.metalness,
+      aoMap: uranoTex.ao,
+      normalMap: uranoTex.normal,
+      side: THREE.FrontSide,
+});
+
    neptunoMaterial = new THREE.MeshStandardMaterial({
       map: neptunoTex.albedo,
       roughnessMap: neptunoTex.rougnessness,
@@ -152,6 +249,12 @@ function createMaterial() {
    // Material inicial
    sol.material = solMaterial;
    mercurio.material = mercurioMaterial;
+   tierra.material = tierraMaterial;
+   venus.material = venusMaterial;
+   marte.material = marteMaterial;
+   jupiter.material = jupiterMaterial;
+   saturno.material = saturnoMaterial;
+   urano.material = uranoMaterial;
    neptuno.material = neptunoMaterial;
 }
 
