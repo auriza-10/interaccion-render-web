@@ -35,54 +35,38 @@ const material = new THREE.MeshStandardMaterial({
 const sol = new THREE.Mesh(geo1, material);
 scene.add(sol);
 
-const luna = new THREE.Mesh(geo2, material);
-scene.add(luna);
-luna.position.z = -5;
-luna.position.x = 5;
 
+// Crear los demás planetas
 const mercurio = new THREE.Mesh(geo3, material);
-scene.add(mercurio);
-mercurio.position.z = -5;
-mercurio.position.x = 8;
-
-const venus= new THREE.Mesh(geo4, material);
-scene.add(venus);
-venus.position.z = -5;
-venus.position.x = 11;
-
+const venus = new THREE.Mesh(geo4, material);
 const tierra = new THREE.Mesh(geo5, material);
-scene.add(tierra);
-tierra.position.z = -5;
-tierra.position.x = 14;
-
 const marte = new THREE.Mesh(geo6, material);
-scene.add(marte);
-marte.position.z = -5;
-marte.position.x = 17;
-
 const jupiter = new THREE.Mesh(geo7, material);
-scene.add(jupiter);
-jupiter.position.z = -5;
-jupiter.position.x = 22;
-
 const saturno = new THREE.Mesh(geo8, material);
-scene.add(saturno);
-saturno.position.z = -5;
-saturno.position.x = 27;
-
-const urano = new THREE.Mesh(geo9, material);     
-scene.add(urano);
-urano.position.z = -5;
-urano.position.x = 32;
-
+const urano = new THREE.Mesh(geo9, material);
 const neptuno = new THREE.Mesh(geo10, material);
-scene.add(neptuno);
-neptuno.position.z = -5;
-neptuno.position.x = 37;
 
+scene.add(mercurio, venus, tierra, marte, jupiter, saturno, urano, neptuno);
 
+//  Planetas distribuidos en círculo alrededor del sol
+const planetas = [
+  { mesh: mercurio, radio: 4 },
+  { mesh: venus, radio: 6 },
+  { mesh: tierra, radio: 8 },
+  { mesh: marte, radio: 10 },
+  { mesh: jupiter, radio: 12 },
+  { mesh: saturno, radio: 14 },
+  { mesh: urano, radio: 16 },
+  { mesh: neptuno, radio: 20 },
+];
 
+// Posición inicial (distribuidos en círculo)
+planetas.forEach((planeta, i) => {
+  const angulo = (i / planetas.length) * Math.PI * 2;
+  planeta.mesh.position.x = Math.cos(angulo) * planeta.radio;
+  planeta.mesh.position.z = Math.sin(angulo) * planeta.radio;
 
+});
 
 // 3.2 Crear luces.
 const frontLight = new THREE.PointLight("rgba(223, 222, 222, 1)", 300, 100);
@@ -113,10 +97,27 @@ const solTex = {
    normal: loader.load('./assets/texturas/sol/normal.png'),
 };
 
+const mercurioTex = {
+   albedo: loader.load('./assets/texturas/mercurio/albedo.png'),
+   displacement: loader.load('./assets/texturas/mercurio/displacement.png'),
+   rougnessness: loader.load('./assets/texturas/mercurio/roughness.png'),
+   metalness: loader.load('./assets/texturas/mercurio/metallic.png'),
+   ao: loader.load('./assets/texturas/mercurio/ao.png'),
+   normal: loader.load('./assets/texturas/mercurio/normal.png'),
+};
+
+const neptunoTex = {
+   albedo: loader.load('./assets/texturas/neptuno/albedo.png'),
+   rougnessness: loader.load('./assets/texturas/neptuno/roughness.png'),
+   metalness: loader.load('./assets/texturas/neptuno/metallic.png'),
+   ao: loader.load('./assets/texturas/neptuno/ao.png'),
+   normal: loader.load('./assets/texturas/neptuno/normal.png'),
+};
+
 
 
 // Variables globales para materiales
-var solMaterial;
+var solMaterial, mercurioMaterial, neptunoMaterial;
 
 function createMaterial() {
    solMaterial = new THREE.MeshStandardMaterial({
@@ -125,12 +126,33 @@ function createMaterial() {
        metalnessMap: solTex.metalness,
        normalMap: solTex.normal,
        side: THREE.FrontSide,
-
    });
+
+   mercurioMaterial = new THREE.MeshStandardMaterial({
+         map: mercurioTex.albedo,
+         displacementMap: mercurioTex.displacement,
+         displacementScale: 0.03,
+         roughnessMap: mercurioTex.rougnessness,
+         metalnessMap: mercurioTex.metalness,
+         aoMap: mercurioTex.ao,
+         normalMap: mercurioTex.normal,
+         side: THREE.FrontSide,
+   });
+
+   neptunoMaterial = new THREE.MeshStandardMaterial({
+      map: neptunoTex.albedo,
+      roughnessMap: neptunoTex.rougnessness,
+      metalnessMap: neptunoTex.metalness,
+      aoMap: neptunoTex.ao,
+      normalMap: neptunoTex.normal,
+      side: THREE.FrontSide,
+});
 
 
    // Material inicial
    sol.material = solMaterial;
+   mercurio.material = mercurioMaterial;
+   neptuno.material = neptunoMaterial;
 }
 
 //// B) Rotación al scrollear.
@@ -187,6 +209,14 @@ function animate() {
     requestAnimationFrame(animate);
 
     sol.rotation.x -= 0.005;
+
+ planetas.forEach((planeta, i) => {
+    const velocidadOrbita = 0.0001 + i * 0.0003; 
+    const angulo = Date.now() * velocidadOrbita;
+    planeta.mesh.position.x = Math.cos(angulo) * planeta.radio;
+    planeta.mesh.position.z = Math.sin(angulo) * planeta.radio;
+  });
+
     lerpScrollY();
     updateMeshRotation();
     //updateCameraPosition();
