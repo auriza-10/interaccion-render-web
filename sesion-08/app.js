@@ -16,7 +16,7 @@ camera.position.set(0, 30, 0);
 camera.lookAt(scene.position);
 
 // quiero que todos esten alrededor del sol
-const geo1 = new THREE.SphereGeometry(3, 64, 64); // sol
+const geo1= new THREE.SphereGeometry(3, 64, 64); // sol
 const geo2= new THREE.SphereGeometry(0.5, 64, 64); // luna
 const geo3= new THREE.SphereGeometry(0.7, 64, 64); // mercurio
 const geo4= new THREE.SphereGeometry(0.9, 64, 64); // venus
